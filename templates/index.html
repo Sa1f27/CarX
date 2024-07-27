@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackathon Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>Hackathon Project</header>
+    <div class="container">
+        <div class="tabs">
+            <button class="tablink" onclick="openTab(event, 'PredictiveMaintenance')">Predictive Maintenance</button>
+            <button class="tablink" onclick="openTab(event, 'CustomerInquiries')">Customer Inquiries</button>
+            <button class="tablink" onclick="openTab(event, 'BestMatch')">Best Match Towing Service</button>
+            <button class="tablink" onclick="openTab(event, 'CarModels')">3D Car Models</button>
+            <button class="tablink" onclick="openTab(event, 'AIChat')">AI Chat Interface</button>
+            <button class="tablink" onclick="openTab(event, 'InsuranceInfo')">Insurance Info Extraction</button>
+            <button class="tablink" onclick="openTab(event, 'InventoryManagement')">Inventory Management</button>
+        </div>
+
+        <div id="PredictiveMaintenance" class="tabcontent">
+            <h3>Predictive Maintenance</h3>
+            <form id="predictive-maintenance-form">
+                <label for="daily_usage">Daily Usage:</label>
+                <input type="text" id="daily_usage" name="daily_usage" placeholder="Enter daily usage in hours">
+                <label for="last_maintenance">Last Maintenance:</label>
+                <input type="text" id="last_maintenance" name="last_maintenance" placeholder="Enter last maintenance date">
+                <label for="fuel_usage">Fuel Usage:</label>
+                <input type="text" id="fuel_usage" name="fuel_usage" placeholder="Enter fuel usage in liters">
+                <button type="submit">Predict</button>
+            </form>
+            <div id="predictive-maintenance-result"></div>
+        </div>
+
+        <div id="CustomerInquiries" class="tabcontent">
+            <h3>Customer Inquiries</h3>
+            <form id="customer-inquiries-form">
+                <label for="question">Question:</label>
+                <input type="text" id="question" name="question" placeholder="Enter your question">
+                <button type="submit">Ask</button>
+            </form>
+            <div id="customer-inquiries-result"></div>
+        </div>
+
+        <div id="BestMatch" class="tabcontent">
+            <h3>Best Match Towing Service</h3>
+            <form id="best-match-form">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" placeholder="Enter your location">
+                <button type="submit">Find</button>
+            </form>
+            <div id="best-match-result"></div>
+        </div>
+
+        <div id="CarModels" class="tabcontent">
+            <h3>3D Car Models</h3>
+            <form id="car-models-form" enctype="multipart/form-data">
+                <label for="video">Video File:</label>
+                <input type="file" id="video" name="video" placeholder="Upload a video file">
+                <button type="submit">Upload</button>
+            </form>
+            <div id="car-models-result"></div>
+        </div>
+
+        <div id="AIChat" class="tabcontent">
+            <h3>AI Chat Interface</h3>
+            <form id="ai-chat-form">
+                <label for="message">Message:</label>
+                <input type="text" id="message" name="message" placeholder="Enter your message">
+                <button type="submit">Send</button>
+            </form>
+            <div id="ai-chat-result"></div>
+        </div>
+
+        <div id="InsuranceInfo" class="tabcontent">
+            <h3>Insurance Info Extraction</h3>
+            <form id="insurance-info-form" enctype="multipart/form-data">
+                <label for="image">Image File:</label>
+                <input type="file" id="image" name="image" placeholder="Upload an image file">
+                <button type="submit">Upload</button>
+            </form>
+            <div id="insurance-info-result"></div>
+        </div>
+
+        <div id="InventoryManagement" class="tabcontent">
+            <h3>Inventory Management</h3>
+            <form id="inventory-management-form" enctype="multipart/form-data">
+                <label for="audio">Audio File:</label>
+                <input type="file" id="audio" name="audio" placeholder="Upload an audio file">
+                <button type="submit">Upload</button>
+            </form>
+            <div id="inventory-management-result"></div>
+        </div>
+    </div>
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        document.getElementById('predictive-maintenance-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            fetch('/predictive-maintenance', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => document.getElementById('predictive-maintenance-result').innerHTML = data.prediction);
+        });
+
+        document.getElementById('customer-inquiries-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            fetch('/customer-inquiries', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => document.getElementById('customer-inquiries-result').innerHTML = data.answer);
+        });
+
+        document.getElementById('best-match-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            fetch('/best-match', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => document.getElementById('best-match-result').innerHTML = data.best_towing_service);
+        });
+
+        document.getElementById('car-models-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            fetch('/3d-car-models', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => document.getElementById('car-models-result').innerHTML = data.status);
+        });
+
+        document.getElementById('ai-chat-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            fetch('/ai-chat', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => document.getElementById('ai-chat-result').innerHTML = data.response);
+        });
+
+        document.getElementById('insurance-info-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            fetch('/insurance-info-extraction', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => document.getElementById('insurance-info-result').innerHTML = data.extracted_info);
+        });
+
+        document.getElementById('inventory-management-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            fetch('/inventory-management', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => document.getElementById('inventory-management-result').innerHTML = data.inventory_update);
+        });
+    </script>
+</body>
+</html>
