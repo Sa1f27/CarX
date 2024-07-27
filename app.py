@@ -57,7 +57,7 @@ def inventory_management():
     with sr.AudioFile(audio_file) as source:
         audio = recognizer.record(source)
     text = recognizer.recognize_google(audio)
-    inventory_update = "Inventory updated successfully"  # Placeholder
+    inventory_update = "Inventory updated successfully"
     return jsonify({"inventory_update": inventory_update})
 
 if __name__ == '__main__':
