@@ -14,7 +14,7 @@ def index():
 
 @app.route('/predictive-maintenance', methods=['POST'])
 def predictive_maintenance():
-    # Dummy implementation for predictive maintenance
+    # Dummy implementation for predictive maintain
     daily_usage = request.form['daily_usage']
     last_maintenance = request.form['last_maintenance']
     fuel_usage = request.form['fuel_usage']
