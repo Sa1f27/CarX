@@ -8,6 +8,9 @@ import pytesseract
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/predictive-maintenance', methods=['POST'])
 def predictive_maintenance():
